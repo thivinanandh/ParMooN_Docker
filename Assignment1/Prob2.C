@@ -37,7 +37,8 @@
 //   --  Boundary Conditions for Problem
 //   --  Boundary Values
 //   --   Bilinear Coefficients like Re_nr or Pec_Nr
-#include "../Examples/NSE_2D/DrivenCavity.h"
+
+#include "../Assignment1/prob2.h"
 
 int main(int argc, char *argv[])
 {
