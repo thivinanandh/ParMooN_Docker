@@ -3,7 +3,7 @@
 // ======================================================================
 #include <ConvDiff2D.h>
 
-// exact solution
+// exact solution 
 void Exact(double x, double y, double *values)
 {
   values[0] = 0;
@@ -64,3 +64,10 @@ void BilinearCoeffs(int n_points, double *x, double *y,
   }
 }
 
+// Ignore this Function.
+void NSType1Galerkin(double Mult, double *coeff,
+					 double *param, double hK,
+					 double **OrigValues, int *N_BaseFuncts,
+					 double ***LocMatrices, double **LocRhs)
+{
+}

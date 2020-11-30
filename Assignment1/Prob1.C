@@ -62,15 +62,16 @@ int main(int argc, char *argv[])
     TFEDatabase2D *FEDatabase = new TFEDatabase2D();
     TCollection *coll, *mortarcoll = NULL;
     //FEVect funciton 2D to get the "U" values from FE Space
-    TFEVectFunct2D *Velocity_VectFunction;
+    TFEFunction2D *Scalar_FEFunction;
     // The derivatives required for solving equations
     MultiIndex2D AllDerivatives[3] = {D00, D10, D01};
     TFESpace2D *fespace;
+    TOutput2D *Output;
 
     /* ----------- Arrays Finite element Space Used ----------- /
 	   *  Order of the Element ,Shape functions , Derivative matices 
        * for Book Keeping Purposes  */
-    TFESpace2D *fesp[1], *ferhs[2];
+    TFESpace2D *fesp[1], *ferhs[1];
 
     /** set variables' value in TDatabase using argv[1] (*.dat file), and generate the MESH based */
     Domain = new TDomain(argv[1]);
@@ -134,13 +135,13 @@ int main(int argc, char *argv[])
     // Get the number of Unknowns and DOF and allocate memory for the respective arrays
     int N_U = fespace->GetN_DegreesOfFreedom();
     int N_Active = fespace->GetActiveBound();
-    int N_DOF = 2 * N_U; // for x and Y
+    int N_DOF = N_U; // for x and Y
 
     double *rhs = new double[N_DOF]();
     double *solution = new double[N_DOF]();
 
     // define a Vect FUNC 2D for the storing the grid co-ordinates
-    Velocity_VectFunction = new TFEVectFunct2D(fespace, (char *)"C", (char *)"C", solution, N_U, 2);
+    Scalar_FEFunction = new TFEFunction2D(fespace, (char *)"C", (char *)"C", solution, N_U);
     ////////  ----- SYSTEM MATRIX INITIALISATION  ----------- ///////////
 
     // Update the number of FESPACES that needs to be used as an array in the FESPACE2D object
@@ -157,9 +158,9 @@ int main(int argc, char *argv[])
     int *SpacesNumbers = new int[N_Terms]();
     // Number of block matrices needed to create our final stiffness matrix
     // For NSE 2d it will be 4 A matrices and 2 B matrices
-    int N_Matrices = 4;
+    int N_Matrices = 1;
     // The number of components in the RHS of the matrix
-    int N_RHS = 2;
+    int N_RHS = 1;
     // The row space and column space of the each matrix being constructed
     int *rowspace = new int[N_Matrices]();
     int *columnspace = new int[N_Matrices]();
@@ -168,7 +169,7 @@ int main(int argc, char *argv[])
     /* ------------------------------- start of DISCRETE FORM ---------------------------- */
 
     discreteform = new TDiscreteForm2D(UString, UString, N_Terms, AllDerivatives, SpacesNumbers, N_Matrices, N_RHS,
-                                       rowspace, columnspace, rhsspace, HemkerAssembly, LinCoeffs, NULL);
+                                       rowspace, columnspace, rhsspace, HemkerAssembly, BilinearCoeffs, NULL);
 
     /** constructor with assembling using parameters */
     /* ------------------------------- end of DISCRETE FORM ---------------------------- */
@@ -182,70 +183,71 @@ int main(int argc, char *argv[])
 
     // Once the strucute of the matrix is finalised for a particular FE space
     // assign a matrix for that particular structure
-    double *RHS[2];
-    TSquareMatrix2D *sqmatrixA11, *sqmatrixA12, *sqmatrixA21, *sqmatrixA22, *SQMATRICES[4];
+    double *RHS[1];
+    TSquareMatrix2D *sqmatrixA11, *SQMATRICES[4];
     sqmatrixA11 = new TSquareMatrix2D(sqstructure);
-    sqmatrixA12 = new TSquareMatrix2D(sqstructure);
-    sqmatrixA21 = new TSquareMatrix2D(sqstructure);
-    sqmatrixA22 = new TSquareMatrix2D(sqstructure);
 
     SQMATRICES[0] = sqmatrixA11;
-    SQMATRICES[1] = sqmatrixA12;
-    SQMATRICES[2] = sqmatrixA21;
-    SQMATRICES[3] = sqmatrixA22;
 
     RHS[0] = rhs;
-    RHS[1] = rhs + N_U;
 
     /*------------------ End  of MATRICES ----------------- */
 
     /*------------------ Start of BOUNDARY CONDITIONS and values----------------- */
-    BoundCondFunct2D *BoundaryConditions_Neumann[2];
-    BoundValueFunct2D *BoundaryValues_Neumann[2], *BoundaryValues_Iter2[2];
+    BoundCondFunct2D *BoundaryConditions_Neumann[1];
+    BoundValueFunct2D *BoundaryValues_Neumann[1], *BoundaryValues_Iter2[2];
 
     BoundaryConditions_Neumann[0] = BoundCondition;
-    BoundaryConditions_Neumann[1] = BoundCondition;
 
     // Assigning the boundary  value function pointers to the above declared pointers
-    BoundaryValues_Neumann[0] = U1BoundValue;
-    BoundaryValues_Neumann[1] = U2BoundValue;
+    BoundaryValues_Neumann[0] = BoundValue;
 
     /*------------------ [End] of BOUNDARY CONDITIONS and values----------------- */
 
-
-    //Book Keeping Purposes 
-    // Array of FEspaces that needs to be passed to the Assembly2D system 
+    //Book Keeping Purposes
+    // Array of FEspaces that needs to be passed to the Assembly2D system
     fesp[0] = fespace;
     ferhs[0] = fespace;
-    ferhs[1] = fespace;
-    
-    cout << " ONDR "<<endl;
-    exit(0);
 
-    // Assembly Function 
+    // Assembly Function
     // Assemble 2D - Functions
-    Assemble2D(1, fesp, 4, SQMATRICES, 0, NULL, 2, RHS, ferhs, discreteform,BoundaryConditions_Neumann,
-				 BoundaryValues_Neumann,aux);
-        
- 
-    double** ENTRIES = new double*[4];
+    Assemble2D(1, fesp, 1, SQMATRICES, 0, NULL, 1, RHS, ferhs, discreteform, BoundaryConditions_Neumann,
+               BoundaryValues_Neumann, aux);
+
+    double **ENTRIES = new double *[1];
 
     ENTRIES[0] = SQMATRICES[0]->GetEntries();
-    ENTRIES[1] = SQMATRICES[1]->GetEntries();
-    ENTRIES[2] = SQMATRICES[2]->GetEntries();
-    ENTRIES[3] = SQMATRICES[3]->GetEntries();
 
     // Solve For the Problem
-    DirectSolver(sqmatrixA11, sqmatrixA12, sqmatrixA21, sqmatrixA22, rhs, rhs + N_U, solution, solution + N_U);
-
+    DirectSolver(sqmatrixA11, rhs, solution);
 
     // Reset matrices to free up the memory requirement
     sqmatrixA11->Reset();
-    sqmatrixA12->Reset();
-    sqmatrixA21->Reset();
-    sqmatrixA22->Reset();
+
     for (int i_rhs = 0; i_rhs < N_DOF; i_rhs++)
-      rhs[i_rhs] = 0;
+        rhs[i_rhs] = 0;
+
+    VtkBaseName = TDatabase::ParamDB->VTKBASENAME;
+    Output = new TOutput2D(1, 1, 0, 0, Domain);
+    Output->AddFEFunction(Scalar_FEFunction);
+
+    //     Scalar_FeFunction->Interpolate(Exact);
+    if (TDatabase::ParamDB->WRITE_VTK)
+    {
+        os.seekp(std::ios::beg);
+        if (img < 10)
+            os << "VTK/" << VtkBaseName << ".0000" << img << ".vtk" << ends;
+        else if (img < 100)
+            os << "VTK/" << VtkBaseName << ".000" << img << ".vtk" << ends;
+        else if (img < 1000)
+            os << "VTK/" << VtkBaseName << ".00" << img << ".vtk" << ends;
+        else if (img < 10000)
+            os << "VTK/" << VtkBaseName << ".0" << img << ".vtk" << ends;
+        else
+            os << "VTK/" << VtkBaseName << "." << img << ".vtk" << ends;
+        Output->WriteVtk(os.str().c_str());
+        img++;
+    }
 
     CloseFiles();
 

@@ -22,7 +22,8 @@
   #include "../Examples/CD_2D/SineLaplace.h" // smooth sol in unitsquares
 #else
   // #include "../Examples/CD_2D/SineLaplace.h"  
-  #include "../Examples/CD_2D/TempDistribution.h" 
+  #include "/media/thivin/disk/PARMOON_GIT_REPO/ParMooN_temp/Main_Users/Sashi/CD_2D/Hemker.h" 
+  
 #endif
 
 
@@ -72,7 +73,7 @@ int main(int argc, char* argv[])
  
   // write all Parameters to the OUTFILE (not to console) for later reference
   Database->WriteParamDB(argv[0]);
-  ExampleFile();
+  // ExampleFile();
     
   /* include the mesh from a mesh generator, for a standard mesh use the 
    * build-in function. The GEOFILE describes the boundary of the domain. */
@@ -89,7 +90,7 @@ int main(int argc, char* argv[])
   else if(TDatabase::ParamDB->MESH_TYPE==2)    //triangle mesh
      {  
       OutPut("Triangle.h used for meshing !!!" << endl);
-      TriaReMeshGen(Domain);
+      // TriaReMeshGen(Domain);
      } 
     else
      {  

@@ -146,12 +146,12 @@ void NSType1Galerkin(double Mult, double *coeff,
     N_P = N_BaseFuncts[1];
 
     // The below values Orig0(u_x), Orig1(u_y) , etc are ARRAY of Values 
-    // Which provides Value of a Particular Shape function ( Based on a DOF )
+    // Which provides Value of a Particular Shape function  or its derivative( Based on a DOF )
     // at the given Quadrature POint. 
     //
     // Here the Size of the Array is equal to the NUmber of DOF in the cell 
     
-    // For Eg : Orig0[1]  gives the derivative of Shape Function number 1 ( Shape function of DOF 1 )
+    // For Eg : Orig0(u_x)[1]  gives the derivative of Shape Function number 1 ( Shape function of DOF 1 ) w.r.t x
     // at the given Quadrature Point.
 
     Orig0 = OrigValues[0]; // u_x
