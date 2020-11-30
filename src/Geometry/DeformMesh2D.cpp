@@ -295,7 +295,7 @@ void deformMesh2D::moveMesh()
     BoundaryValues_Neumann[0] = BoundValue_X;
     BoundaryValues_Neumann[1] = BoundValue_Y;
 
-/*------------------ Start of BOUNDARY CONDITIONS and values----------------- */ 
+/*------------------ [End] of BOUNDARY CONDITIONS and values----------------- */ 
 
   // Array of FEspaces that needs to be passed to the Assembly2D system 
 
