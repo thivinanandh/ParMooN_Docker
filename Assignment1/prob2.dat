@@ -5,8 +5,8 @@
 VERSION:        1
 LOGFILE:        logfile
 
-GEOFILE:      ../../ParMooN/data/UnitSquare.GEO
-BNDFILE:        ../../ParMooN/data/UnitSquare.PRM
+GEOFILE:      ../../ParMooN_temp/data/UnitSquare.GEO
+BNDFILE:        ../../ParMooN_temp/data/UnitSquare.PRM
 
 
 ----------------------------------------------------------------------
