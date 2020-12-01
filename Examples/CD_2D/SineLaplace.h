@@ -608,3 +608,12 @@ void  TriaReMeshGen(TDomain *&Domain)
  
 } // TriaReMeshGen
 
+
+
+// Ignore this Function for assignment
+void NSType1Galerkin(double Mult, double *coeff,
+                     double *param, double hK,
+                     double **OrigValues, int *N_BaseFuncts,
+                     double ***LocMatrices, double **LocRhs)
+{
+}

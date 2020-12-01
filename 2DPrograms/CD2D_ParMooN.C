@@ -22,7 +22,7 @@
   #include "../Examples/CD_2D/SineLaplace.h" // smooth sol in unitsquares
 #else
   // #include "../Examples/CD_2D/SineLaplace.h"  
-  #include "/media/thivin/disk/PARMOON_GIT_REPO/ParMooN_temp/Main_Users/Sashi/CD_2D/Hemker.h" 
+  #include "../Examples/CD_2D/SineLaplace.h" 
   
 #endif
 
