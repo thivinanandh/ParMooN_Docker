@@ -487,7 +487,9 @@ if(TDatabase::ParamDB->DISCTYPE== VMS_PROJECTION && !TDatabase::ParamDB->ASSEMBL
     // add local right-hand sides to global right-hand side
     //========================================================================        
     if(N_Rhs)
+    {
       this->AddLocalRhsToGlobal(i, cell, N_BaseFunct, BaseFuncts, reftrans);   
+    }
   } // for(i=0;i<N_Cells;i++)
  
    //========================================================================     

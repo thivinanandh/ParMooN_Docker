@@ -3325,80 +3325,80 @@ void TSystemTNSE3D_ALE::imposeExternalBoundaryCondition(void externalBoundaryPar
 
     externalBoundaryParameters(frequency,type, amplitute);
 
-    switch (type)
-    {
-    case 1:      // Swaying Motion
-        int forwardFlag = 0; 
+    // switch (type)
+    // {
+    // case 1:      // Swaying Motion
+    //     int forwardFlag = 0; 
 
-        const int totallength = VelocityFEvect->GetLength() * VelocityFEvect->GetN_Components();
-        const int length = VelocityFEvect->GetLength();
-        double* VelocityArray = VelocityFEvect->GetValues();
-        double* ExternalVelocityArray = ExternalVelocityFEvect->GetValues();
+    //     const int totallength = VelocityFEvect->GetLength() * VelocityFEvect->GetN_Components();
+    //     const int length = VelocityFEvect->GetLength();
+    //     double* VelocityArray = VelocityFEvect->GetValues();
+    //     double* ExternalVelocityArray = ExternalVelocityFEvect->GetValues();
 
-        // Applying Velocity only in x Axis
-        double currentTime  = TDatabase::TimeDB->CURRENTTIME;
+    //     // Applying Velocity only in x Axis
+    //     double currentTime  = TDatabase::TimeDB->CURRENTTIME;
 
-        double timeStepLength = TDatabase::TimeDB->TIMESTEPLENGTH;
+    //     double timeStepLength = TDatabase::TimeDB->TIMESTEPLENGTH;
 
-        double timeperCycle = 1.0 / (2 * frequency) ;
+    //     double timeperCycle = 1.0 / (2 * frequency) ;
         
-        //THe below division value is implicitly converted into int for flooring the ans value 
-        int temp = currentTime/timeperCycle;
+    //     //THe below division value is implicitly converted into int for flooring the ans value 
+    //     int temp = currentTime/timeperCycle;
 
 
-        // --------- Sanity Check ------------------------------- //
-        // The time step length provided should be in such a way that ,it should land at the timepercycle value
-        // i.e The time value when the velocity is supposed to change direction , should be one of the time values
-        //  prodiced by the timeSteplength provided by the user
+    //     // --------- Sanity Check ------------------------------- //
+    //     // The time step length provided should be in such a way that ,it should land at the timepercycle value
+    //     // i.e The time value when the velocity is supposed to change direction , should be one of the time values
+    //     //  prodiced by the timeSteplength provided by the user
 
-        double check = timeperCycle/ timeStepLength ; 
-        if ( floor(check) != ceil(check))
-        {
-            cout << " ERROR :  The timestep length : "<< timeStepLength << " does not capture the time of change of" <<
-                            " velocity ( frequency of external exitation ) " <<endl;
-            cout << " INFO  : Error in -- Class : SystemTNSE3D_ALE ||  File : SystemTNSE3D_ALE || Function : imposeExternalBoundaryCondition" <<endl;
+    //     double check = timeperCycle/ timeStepLength ; 
+    //     if ( floor(check) != ceil(check))
+    //     {
+    //         cout << " ERROR :  The timestep length : "<< timeStepLength << " does not capture the time of change of" <<
+    //                         " velocity ( frequency of external exitation ) " <<endl;
+    //         cout << " INFO  : Error in -- Class : SystemTNSE3D_ALE ||  File : SystemTNSE3D_ALE || Function : imposeExternalBoundaryCondition" <<endl;
 
-            exit(0);  // THIVIN - Exit Statement
-        }
+    //         exit(0);  // THIVIN - Exit Statement
+    //     }
 
-        if (  timeperCycle < timeStepLength )
-        {
-          cout << " ERROR :  The timestep length : "<< timeStepLength << " is less than the timePErCycle " <<
-                                timeperCycle << " value " <<endl;
+    //     if (  timeperCycle < timeStepLength )
+    //     {
+    //       cout << " ERROR :  The timestep length : "<< timeStepLength << " is less than the timePErCycle " <<
+    //                             timeperCycle << " value " <<endl;
           
-          cout << " INFO  :  check the frequency value in the function: externalBoundaryParameters in the ALE example file " <<endl;
-          cout << " INFO  : Error in --  Class : SystemTNSE3D_ALE ||  File : SystemTNSE3D_ALE || Function : imposeExternalBoundaryCondition" <<endl;
-          exit(0);  // THIVIN - Exit Statement
-        }
+    //       cout << " INFO  :  check the frequency value in the function: externalBoundaryParameters in the ALE example file " <<endl;
+    //       cout << " INFO  : Error in --  Class : SystemTNSE3D_ALE ||  File : SystemTNSE3D_ALE || Function : imposeExternalBoundaryCondition" <<endl;
+    //       exit(0);  // THIVIN - Exit Statement
+    //     }
 
-        // --------- END Sanity Check ------------------------------- //
+    //     // --------- END Sanity Check ------------------------------- //
 
-        // if the value is even , then it is forward Motion 
-        // else it is Backward Motion
-        if ( temp % 2 == 0) forwardFlag = 1;
-        else forwardFlag = 0;
+    //     // if the value is even , then it is forward Motion 
+    //     // else it is Backward Motion
+    //     if ( temp % 2 == 0) forwardFlag = 1;
+    //     else forwardFlag = 0;
 
-        // cout << " Ext Vel norm Before : " << cblas_dnrm2(totallength,ExternalVelocityArray,1.0) <<endl;
-        // cout << " Vel norm Before : " << cblas_dnrm2(totallength,VelocityArray,1.0) <<endl;
+    //     // cout << " Ext Vel norm Before : " << cblas_dnrm2(totallength,ExternalVelocityArray,1.0) <<endl;
+    //     // cout << " Vel norm Before : " << cblas_dnrm2(totallength,VelocityArray,1.0) <<endl;
 
-        if(forwardFlag)
-        {
-          // cout << " Forward " <<endl;
-          std::fill(ExternalVelocityArray,ExternalVelocityArray+length,0.1);
-        }
-        else
-        {
-          // cout << " Backward " <<endl;
-          std::fill(ExternalVelocityArray,ExternalVelocityArray+length,-0.1);
-        }
+    //     if(forwardFlag)
+    //     {
+    //       // cout << " Forward " <<endl;
+    //       std::fill(ExternalVelocityArray,ExternalVelocityArray+length,0.1);
+    //     }
+    //     else
+    //     {
+    //       // cout << " Backward " <<endl;
+    //       std::fill(ExternalVelocityArray,ExternalVelocityArray+length,-0.1);
+    //     }
 
-        cblas_daxpby(totallength,-1.0,ExternalVelocityArray ,1.0,1.0,VelocityArray,1.0);
+    //     cblas_daxpby(totallength,-1.0,ExternalVelocityArray ,1.0,1.0,VelocityArray,1.0);
 
-      break;
+    //   break;
     
-    default:
-      break;
-    }
+    // default:
+    //   break;
+    // }
    
     // cout << " Ext Vel norm after : " << cblas_dnrm2(totallength,ExternalVelocityArray,1.0) <<endl;
     // cout << " Vel norm after : " << cblas_dnrm2(totallength,VelocityArray,1.0) <<endl;

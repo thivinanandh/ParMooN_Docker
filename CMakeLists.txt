@@ -76,6 +76,15 @@ if(AParMooN_USE_SYSTEM_MKLBLAS)
         message("MKL BLAS_NOT_FOUND in your system, searching ...")
       endif(BLAS_FOUND)
     endif(CMAKE_VERBOSE_MAKEFILE)  
+
+    # add a User parameter to be passed to parmoon to inform the usage of MKL header files
+    # Declare a private Variable for _INTELMKLBLAS_ in order to include Header Files
+    if(BLAS_FOUND)
+    set(PARMOON_C_DEF " ${PARMOON_C_DEF} -DINTELMKLBLAS")
+    set(PARMOON_CXX_DEF " ${PARMOON_CXX_DEF} -DINTELMKLBLAS")
+    # Set the Variable ISMKLBLASUSED to true
+    set(MKLBLASFOUND "TRUE")
+    endif(BLAS_FOUND)
 endif(AParMooN_USE_SYSTEM_MKLBLAS)
 
 if(NOT BLAS_FOUND)
@@ -323,7 +332,7 @@ elseif( "${AParMooN_PARALLEL_TYPE}" STREQUAL "SEQUENTIAL"  OR "${AParMooN_PARALL
 
 elseif("${AParMooN_PARALLEL_TYPE}" STREQUAL "SCUDA")
 target_link_libraries(parmoon_${AParMooN_GEO}_${AParMooN_PARALLEL_TYPE}.exe "solver" "sys" "geo"  "fe" "gen" "geo" "fe" "gen" "fe"
-                    "amg"  "quad" "ref" "geo" "fe" "quad" "geo" "solver" "sys" "fe" "geo" "cudaSpLinSolver" ${UMFPACK_LIBRARIES} ${TECPLOT_LIBRARIES}
+                    "amg"  "quad" "ref" "geo" "fe" "quad" "geo" "solver" "sys" "fe" "geo"  ${UMFPACK_LIBRARIES} ${TECPLOT_LIBRARIES}
                     ${BLAS_LIBRARIES} ${TETGEN_LIBRARIES} ${GRIDGEN_LIBRARIES}  -lcusparse -lculibos -lcublas -lcusolver -lnvToolsExt  )
 endif("${AParMooN_PARALLEL_TYPE}" STREQUAL "MPI"  OR "${AParMooN_PARALLEL_TYPE}" STREQUAL "HYBRID" OR "${AParMooN_PARALLEL_TYPE}" STREQUAL "SMPI")
 

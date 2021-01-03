@@ -33,7 +33,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include <tetgen.h>
+
 #include <GridCell.h>
 #include <MacroCell.h>
 #include <BdPlane.h>
@@ -46,6 +46,12 @@
 #include "mpi.h"
 #include <MeshPartition.h>
 #endif
+
+#ifdef  INTELMKLBLAS
+#include "mkl.h"
+#include "mkl_spblas.h"
+#include "mkl_types.h"
+#endif  //INTELMKLBLAS
 
 double bound = 0;
 double timeC = 0;
@@ -163,8 +169,8 @@ int main(int argc, char* argv[])
     {Domain->Init(TDatabase::ParamDB->BNDFILE, TDatabase::ParamDB->GEOFILE); } // ParMooN  build-in Geo mesh
   else if(TDatabase::ParamDB->MESH_TYPE==1)  
      {Domain->GmshGen(TDatabase::ParamDB->GEOFILE); }//gmsh mesh
-  else if(TDatabase::ParamDB->MESH_TYPE==2)   
-    {Domain->TetrameshGen(TDatabase::ParamDB->GEOFILE); } //tetgen mesh
+  // else if(TDatabase::ParamDB->MESH_TYPE==2)   
+    // {Domain->TetrameshGen(TDatabase::ParamDB->GEOFILE); } //tetgen mesh
     else
      {  
       OutPut("Mesh Type not known, set MESH_TYPE correctly!!!" << endl);
@@ -478,8 +484,8 @@ int main(int argc, char* argv[])
       for(j=0;j<5;j++)
        errors[j] = 0;
 
-      Scalar_FeFunction->GetErrors(Exact, 4, AllDerivatives, 2, L2H1Errors,
-                                   BilinearCoeffs, aux, 1, fesp, errors);
+      // Scalar_FeFunction->GetErrors(Exact, 4, AllDerivatives, 2, L2H1Errors,
+      //                              BilinearCoeffs, aux, 1, fesp, errors);
 
 #ifdef _MPI
       MPI_Allreduce(errors, reduced_errors, 2, MPI_DOUBLE, MPI_SUM, Comm);
@@ -679,8 +685,8 @@ int main(int argc, char* argv[])
       olderror1 = errors[1];
  
  
-      Scalar_FeFunction->GetErrors(Exact, 4, AllDerivatives, 2, L2H1Errors,
-                                   BilinearCoeffs, aux, 1, fesp, errors);
+      // Scalar_FeFunction->GetErrors(Exact, 4, AllDerivatives, 2, L2H1Errors,
+      //                              BilinearCoeffs, aux, 1, fesp, errors);
  
 
 #ifdef _MPI

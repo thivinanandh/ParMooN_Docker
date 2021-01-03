@@ -102,3 +102,12 @@ void BilinearCoeffs(int n_points, double *X, double *Y,
        + c*sin(tau*tau)*cos(x*y*y);
   }
 }
+
+
+// Ignore this Function for assignment
+void NSType1Galerkin(double Mult, double *coeff,
+                     double *param, double hK,
+                     double **OrigValues, int *N_BaseFuncts,
+                     double ***LocMatrices, double **LocRhs)
+{
+}

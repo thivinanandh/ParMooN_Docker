@@ -134,6 +134,11 @@ struct TParaDB
   double time_restriction;
   double time_restriction_start;
   double time_restriction_end;
+
+    //THIVIN - SCALING PARAMETERS 
+  double MESH_SCALE_X;
+  double MESH_SCALE_Y;
+  double MESH_SCALE_Z;
   
   //======================================================================
   /** parameters for setting finite element spaces                      */

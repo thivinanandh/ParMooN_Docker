@@ -374,6 +374,11 @@ void TDatabase::SetDefaultParameters()
   ParamDB->WEI_NR=1.0;
   ParamDB->Axial3D = 0;
   ParamDB->Axial3DAxis = 0;  
+
+    /*  PARAMETERS FOR MESH SCALLING */
+  ParamDB->MESH_SCALE_X = 1.0;
+  ParamDB->MESH_SCALE_Y = 1.0;
+  ParamDB->MESH_SCALE_Z = 1.0;
   
   // ------------------time parameters
   ParamDB->time_system_assemble =0.0;

@@ -212,7 +212,7 @@ int main(int argc, char* argv[])
       OutPut("time: " << TDatabase::TimeDB->CURRENTTIME);
       OutPut(" L2: " << errors[0]);
       OutPut(" H1-semi: " << errors[1] << endl);     
-     Linfty=errors[0];
+      Linfty=errors[0];
      } //  if(TDatabase::ParamDB->MEASURE_ERRORS)  
        
        
@@ -336,7 +336,7 @@ int main(int argc, char* argv[])
 //======================================================================
 // produce final outout
 //======================================================================
-  
+      TDatabase::ParamDB->WRITE_VTK = 1;
      if(TDatabase::ParamDB->WRITE_VTK)
       {
        os.seekp(std::ios::beg);

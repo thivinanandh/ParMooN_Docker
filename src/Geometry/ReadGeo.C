@@ -1699,6 +1699,10 @@ int TDomain::MakeGrid(double *DCORVG, int *KVERT, int *KNPR, int *ELEMSREF,
   TInterfaceJoint3D *IFJoint;
   TIsoInterfaceJoint3D *IIJoint;
   double scale_x, scale_y,scale_z;
+
+  scale_x = TDatabase::ParamDB->MESH_SCALE_X;
+  scale_y = TDatabase::ParamDB->MESH_SCALE_Y;
+  scale_z = TDatabase::ParamDB->MESH_SCALE_Z;
   // generate vertices, faces and cells
   // search neighbours
   KVEL = new int[N_Vertices];
@@ -1750,9 +1754,11 @@ int TDomain::MakeGrid(double *DCORVG, int *KVERT, int *KNPR, int *ELEMSREF,
         cout << " ==================== File Name ; Read Geo  , FunctionName : MakeGrid ======================= " <<endl;
         cout << " ========= " << " Scale X = " <<scale_x << " Scale X = " <<scale_y << " Scale X = " <<scale_z << "==============="<<endl;
       }       
-      X *= 1;
-      Y *= 0.346;
-      Z *= 0.346;
+      X *= scale_x;
+      Y *= scale_y;
+      Z *= scale_z;
+
+      Y = Y-0.1;
 	}
 	else
 	{

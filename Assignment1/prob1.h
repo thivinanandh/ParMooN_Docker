@@ -44,109 +44,138 @@ void Exact(double x, double y, double *values)
 // Provide The Boundary Condition as "DIRICHLET" or "NEUMANN"
 // ========================================================================
 // TO DO
+
 void BoundCondition(int BdComp, double t, BoundCond &cond)
 {
-   /*
-    Function provides Boundary Condition on the edges of the domain. 
-    for eg, if you want to provide DIRICHLET for Egde where y = 1 ( ID  = 2) and Neuman every where
-    Then use either "if - else if  -else" ( as below ) or Switch case based on value "i"
-        if(i == 0)
-            cond  =  DIRICHLET
-        else
-            cond  =  NEUMANN
-    Note : Make sure to give Bound cond for all Edges, else the execution will fail. 
-    */
+    switch(BdComp)
+    {
+	case 0:
+	case 1:
+	case 2:
+	    cond = NEUMANN;
+	    break;
+	default:
+	    cond = DIRICHLET;
+    }
 }
 
-// Boundary  value at the Boundary Edges  // TO DO
+
+// value of boundary condition
 void BoundValue(int BdComp, double Param, double &value)
 {
-    /*
-    Give the Value at the Boundary based on the BdComp (Boundary COnponent ID)
-    For eg : For the Edge y = 1, if I need to provide value =  1, then use, 
-    either Switch condition or an Ifelse cond to apply bd Values. 
-     if(BdComp == 0)
-        value = 1.0;
-    Note : Make sure to give Bound Value for all Edges, else the execution will fail. 
- */
+  switch(BdComp)
+  {
+    case 1:
+      value = 0;
+      break;
+    case 4:
+      value = 1;
+      break;
+    default:
+      value = 0;
+  }
+}
+
+// initial conditon
+void InitialCondition(double x,  double y, double *values)
+{
+  values[0] = 0;
+}
+
+void BoundConditionAdjoint(int BdComp, double t, BoundCond &cond)
+{
+    switch(BdComp)
+    {
+	case 0:
+	case 2:
+	case 3:
+	    cond = NEUMANN;
+	    break;
+	default:
+	    cond = DIRICHLET;
+    }
 }
 
 
-// DO NOT  CHANGE THIS FUNCTION for Assignment
+// value of boundary condition
+void BoundValueAdjoint(int BdComp, double Param, double &value)
+{
+    value = 0;
+}
+
 void BilinearCoeffs(int n_points, double *x, double *y,
         double **parameters, double **coeffs)
 {
-  double eps=1/TDatabase::ParamDB->PE_NR;
+  double eps=1/TDatabase::ParamDB->RE_NR;
   double angle = 0, v1, v2;
   int i;
-  double *coeff, *param;
+  double *coeff;
 
-  v1 = 1.0;
-  v2 = 0;
+  v1 = cos(angle);
+  v2 = sin(angle);
 
   for(i=0;i<n_points;i++)
   {
     coeff = coeffs[i];
 
-    coeff[0] = eps;     // ( 1/Pe )
-    coeff[1] = v1;      // ( b1     )
-    coeff[2] = v2;      // b2
-    coeff[3] = 0;       // c
+    coeff[0] = eps;
+    coeff[1] = v1;
+    coeff[2] = v2;
+    coeff[3] = 0;
 
-    coeff[4] = 0;       // f
+    coeff[4] = 0;
   }
 }
-
 
 // ======================================================================
 // ASSEMBLY FUNCTION
 // This fucntion will be called for Every Quadrature Point inside a Cell for Local Assembly
 // ======================================================================
-void HemkerAssembly(double quad_wt, double *coeff, double *param,
-                    double hK, double **derivatives, int *N_BaseFuncts, double ***LocMatrices, double **LocRhs)
-{
+//  void HemkerAssembly(double quad_wt, double *coeff, double *param,
+//                      double hK, double **derivatives, int *N_BaseFuncts, double ***LocMatrices, double **LocRhs)
+//  {
 
-	// The below values N_x, N_y , etc are ARRAY of Values 
-    // Which provides Value of a Particular Shape function or its derivative ( Based on a DOF )
-    // at the given Quadrature POint. 
-    //
-    // Here the Size of the Array is equal to the NUmber of DOF in the cell 
+// 	// The below values N_x, N_y , etc are ARRAY of Values 
+//     // Which provides Value of a Particular Shape function or its derivative ( Based on a DOF )
+//     // at the given Quadrature POint. 
+//     //
+//     // Here the Size of the Array is equal to the NUmber of DOF in the cell 
     
-    // For Eg : Orig0[1]  gives the derivative of Shape Function number 1 ( Shape function of DOF 1 ) w.r.t x
-    // at the given Quadrature Point.
+//     // For Eg : Orig0[1]  gives the derivative of Shape Function number 1 ( Shape function of DOF 1 ) w.r.t x
+//     // at the given Quadrature Point.
 
-    double *N = derivatives[0], *Nx = derivatives[1], *Ny = derivatives[2];
-    
-	
-	double **A11, *F1;
-    double val = 0.;
+//     double *N = derivatives[0], *Nx = derivatives[1], *Ny = derivatives[2];
     
 	
-	A11 = LocMatrices[0];  // Local Stiffenss matrix
+// 	double **A11, *F1;
+//     double val = 0.;
+    
+	
+// 	A11 = LocMatrices[0];  // Local Stiffenss matrix
 
-    F1 = LocRhs[0];
+//     F1 = LocRhs[0];
 
 
-    double c0 = coeff[0]; // nu
-    double b1 = coeff[1]; // b1
-    double b2 = coeff[2]; // b2
-    double c  = coeff[3]; // c
-    double f  = coeff[4]; //f
+//     double c0 = coeff[0]; // nu
+//     double b1 = coeff[1]; // b1
+//     double b2 = coeff[2]; // b2
+//     double c  = coeff[3]; // c
+//     double f  = coeff[4]; //f
 
-    int N_DOF_perCell = N_BaseFuncts[0];
+//     int N_DOF_perCell = N_BaseFuncts[0];
 
-    for (int i = 0; i < N_DOF_perCell; i++)
-    {
-        // Assemble RHS 
-        F1[i] =  ; // TO DO
-        for (int j = 0; j < N_DOF_perCell; j++)
-        {
+//     for (int i = 0; i < N_DOF_perCell; i++)
+//     {
+//         // Assemble RHS 
+//         F1[i] =  ; // TO DO
+//         for (int j = 0; j < N_DOF_perCell; j++)
+//         {
 
-            A11[i][j]  = //   TO DO 
-        } // endfor j
-    }     // endfor i
+//             A11[i][j]  = //   TO DO 
+//         } // endfor j
+//     }     // endfor i
 
-}
+//  }
 
 
 // Ignore this Function for assignment

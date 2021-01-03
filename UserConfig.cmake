@@ -8,7 +8,7 @@
 set(CMAKE_VERBOSE_MAKEFILE FALSE)
 
 # selection of dimension (2D 3D)
-set(AParMooN_GEO "2D" CACHE STRING "Change AParMooN_GEO, to select the Dimensio of the problem")
+set(AParMooN_GEO "3D" CACHE STRING "Change AParMooN_GEO, to select the Dimensio of the problem")
 # set(AParMooN_GEO "2D" CACHE STRING "Change AParMooN_GEO, to select the Dimension of the problem")
 
 #...................................................................................................................................................
@@ -26,7 +26,7 @@ set(AParMooN_GEO "2D" CACHE STRING "Change AParMooN_GEO, to select the Dimensio 
 # set(AParMooN_MODEL "${PROJECT_SOURCE_DIR}/Main_Users/Thivin/TNSE3D/thivin_TNSE3D.cpp" CACHE STRING "Enter to select the Main file of the model")
 # set(AParMooN_MODEL "${PROJECT_SOURCE_DIR}/Main_Users/Thivin/Sample_mesh_move_2d.cpp" CACHE STRING "Enter to select the Main file of the model")
 
-set(AParMooN_MODEL "${PROJECT_SOURCE_DIR}/Assignment1/Prob2.C" CACHE STRING "Enter to select the Main file of the model") 
+set(AParMooN_MODEL "${PROJECT_SOURCE_DIR}/Assignment2/Prob2.C" CACHE STRING "Enter to select the Main file of the model") 
 
 # selection of architect type (LINUX64 MAC64 INTEL64 TYRONE64 CRAY64)
 set(AParMooN_ARCH "LINUX64" CACHE STRING "select the machine type")
@@ -51,7 +51,7 @@ set(AParMooN_MPI_IMPLEMENTATION "INTELMPI" CACHE STRING "select the MPI Implemen
 # set(AParMooN_OUTPUT_DIR_PATH "${CMAKE_SOURCE_DIR}/../ParMooN_Output/mesh2d" CACHE STRING "select the model")
 # set(AParMooN_OUTPUT_DIR_PATH "${CMAKE_SOURCE_DIR}/../ParMooN_Output/deepikaji" CACHE STRING "select the model")
 
-set(AParMooN_OUTPUT_DIR_PATH "${CMAKE_SOURCE_DIR}/../ParMooN_Output/Assignment1" CACHE STRING "select the model")
+set(AParMooN_OUTPUT_DIR_PATH "${CMAKE_SOURCE_DIR}/../ParMooN_Output/Assignment2" CACHE STRING "select the model")
 
 
 set(USE_PARMOON_DEFINE -D__PRIVATE__)
@@ -124,8 +124,8 @@ endif()
  endif()
 
  if("${AParMooN_ARCH}" STREQUAL "LINUX64")
-   set(PARMOON_CXX_DEF "${PARMOON_CXX_DEF} -fopenmp -std=c++11 -lmkl_rt -lmkl_intel_thread -lpthread -liomp5")
-   set(PARMOON_C_DEF "  ${PARMOONx_C_DEF}  -DREDUCED -DNO_TIMER -m64  -lmkl_rt -lmkl_intel_thread  ")
+   set(PARMOON_CXX_DEF "${PARMOON_CXX_DEF} -fopenmp -std=c++11 ")
+   set(PARMOON_C_DEF "  ${PARMOONx_C_DEF}  -DREDUCED -DNO_TIMER -m64   ")
    set(PARMOON_CUDA_DEF "${PARMOON_CUDA_DEF} -arch=sm_70 -Xcompiler -fopenmp -w ")
    
  elseif("${AParMooN_ARCH}" STREQUAL "MAC64")
@@ -145,6 +145,21 @@ endif()
    set(PARMOON_CUDA_DEF "${PARMOON_CUDA_DEF} -arch=sm_70 -Xcompiler -fopenmp -w ")
 
  endif()
+
+ #### SET UP MKL BLAS VARIABLES ######
+if ("${MKLBLASFOUND}" STREQUAL "TRUE")
+if("${AParMooN_ARCH}" STREQUAL "LINUX64")  
+  set(PARMOON_CXX_DEF "${PARMOON_CXX_DEF} -lmkl_rt -lmkl_intel_thread -lpthread -liomp5 ")
+  set(PARMOON_C_DEF "  ${PARMOONx_C_DEF}  -lmkl_rt -lmkl_intel_thread")
+endif("${AParMooN_ARCH}" STREQUAL "LINUX64") 
+
+if("${AParMooN_ARCH}" STREQUAL "INTEL64")  
+  set(PARMOON_CXX_DEF "${PARMOON_CXX_DEF} -lmkl_rt -lmkl_intel_thread")
+  set(PARMOON_C_DEF "  ${PARMOONx_C_DEF}  -lmkl_rt -lmkl_intel_thread")
+endif("${AParMooN_ARCH}" STREQUAL "INTEL64") 
+
+endif ("${MKLBLASFOUND}" STREQUAL "TRUE")
+####  --END-- SET UP MKL BLAS VARIABLES ######
  
 set(PARMOON_C_DEF " ${PARMOON_C_DEF} -D__${AParMooN_GEO}__ -D__${AParMooN_ARCH}__  -DTRILIBRARY -DTETLIBRARY  ${PARMOON_PRG_DEFINE} ${USE_PARMOON_DEFINE}") 
 set(PARMOON_CXX_DEF " ${PARMOON_CXX_DEF} -D__${AParMooN_GEO}__ -D__${AParMooN_ARCH}__  -DTRILIBRARY -DTETLIBRARY ${PARMOON_PRG_DEFINE} ${USE_PARMOON_DEFINE}")

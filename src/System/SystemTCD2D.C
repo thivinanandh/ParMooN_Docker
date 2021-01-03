@@ -18,6 +18,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+// INcluded for Assignment -- Ignore them
+#include <MainUtilities.h>
+#include <ConvDiff.h>
+#include <ConvDiff2D.h>
+#include <TimeConvDiff2D.h>
+#include <Database.h>
+#include <FEDatabase2D.h>
+#include <DiscreteForm2D.h>
+
 TSystemTCD2D::TSystemTCD2D(TFESpace2D *fespace, int disctype, int solver): TSystemCD2D(fespace,  disctype, solver)
 {
   /** need it for solver */
@@ -98,7 +107,12 @@ void TSystemTCD2D::Init(CoeffFct2D *BilinearCoeffs, BoundCondFunct2D *BoundCond,
   
   InitializeDiscreteFormsScalar(DiscreteFormMRhs_Galerkin, DiscreteFormARhs_Galerkin, DiscreteFormMRhs_SUPG,
                                   DiscreteFormARhs_SUPG, BilinearCoeffs);
-  
+
+
+  // Additionally Added for assignment Problem
+
+
+
     switch(Disctype)
      {
       case GALERKIN:
@@ -118,10 +132,10 @@ void TSystemTCD2D::Init(CoeffFct2D *BilinearCoeffs, BoundCondFunct2D *BoundCond,
      }  
        
     /** dG time steppings */
-    if(TDatabase::TimeDB->DG_TimeDisc)
-     {
-      TimeDG->AddBilinear(BilinearCoeffs);
-     }//  if(TDatabase::TimeDB->DG_TimeDisc)
+    // if(TDatabase::TimeDB->DG_TimeDisc)
+    //  {
+    //   TimeDG->AddBilinear(BilinearCoeffs);
+    //  }//  if(TDatabase::TimeDB->DG_TimeDisc)
    
    
 } // Init
@@ -187,7 +201,7 @@ void TSystemTCD2D::AssembleARhs(TAuxParam2D *aux, double *sol, double *rhs)
     ferhs[0] = FeSpace;
     
     // initialize matrices
-    SQMATRICES[0] = sqmatrixA;
+    SQMATRICES[0] = sqmatrixM;
     SQMATRICES[0]->Reset();    
     N_SquareMatrices =1;
     
@@ -210,9 +224,11 @@ void TSystemTCD2D::AssembleARhs(TAuxParam2D *aux, double *sol, double *rhs)
                BoundaryConditions,
                BoundaryValues,
                aux);
-     
+
+     memcpy(B+N_Active, rhs+N_Active, (N_DOF-N_Active)*SizeOfDouble);
+     memcpy(sol+N_Active, rhs+N_Active, (N_DOF-N_Active)*SizeOfDouble);
       // copy Dirichlet values from rhs into sol
-      memcpy(sol+N_Active, rhs+N_Active, (N_DOF - N_Active)*SizeOfDouble);  
+      // memcpy(sol+N_Active, rhs+N_Active, (N_DOF - N_Active)*SizeOfDouble);  
       
 } // TSystemTCD2D::AssembleARhs 
 
@@ -332,7 +348,7 @@ void TSystemTCD2D::Solve(double *sol, double *rhs)
         break;
 
         case DIRECT:
-          DirectSolver(sqmatrixM, B, sol);
+          DirectSolver(sqmatrixM, rhs, sol);
         break;      
  
         default:

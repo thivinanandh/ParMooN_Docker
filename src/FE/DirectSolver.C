@@ -14,11 +14,17 @@
 #include <Database.h>
 #include "stdlib.h"
 #include <LinAlg.h>
-
+#include <omp.h>
 #ifdef _MPI
-  #include <mkl.h>
-  #include <omp.h>
+  
 #endif
+
+
+#ifdef  INTELMKLBLAS
+#include "mkl.h"
+#include "mkl_spblas.h"
+#include "mkl_types.h"
+#endif  //INTELMKLBLAS
 
 
 #include <fstream>
@@ -6095,7 +6101,7 @@ void PardisoDirectSolver_without_removing_dirichlet_dof(TSquareMatrix3D *sqmatri
                   /* -------------------------------------------------------------------- */
                   /* .. Setup Pardiso control parameters. */
                   /* -------------------------------------------------------------------- */
-    for (i = 0; i < 64; i++)
+    for (int i = 0; i < 64; i++)
     {
       iparm[i] = 0;
     }
