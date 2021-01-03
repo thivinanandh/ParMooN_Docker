@@ -1,6 +1,15 @@
 #include <constants.h>
 #include <Enumerations.h>
 
+// =======================================================================
+//
+// Purpose:     Prob - 2 Assignment 2 - 3D (Scalar Valued Problem)
+//
+// Author:      Thivin Anandh D
+//
+// History:     Implementation started on 30.12.2020
+// =======================================================================
+
 // Navier-Stokes problem, Driven cavity
 //
 // u(x,y) = unknown

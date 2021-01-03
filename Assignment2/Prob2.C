@@ -1,7 +1,7 @@
 
 
 /** ************************************************************************ 
-* @brief     Example problem for Stationary Scalar Valued Problem ("Poisson")   -- 3D
+* @brief     Example problem for Non Stationary Scalar Valued Problem ("Poisson")   -- 3D
 * @author    Thivin Anandh ( thivinanandh@iisc.ac.in )
 * @date       31-Dec-2020
 * @history    Sample Code for Assignment 2
