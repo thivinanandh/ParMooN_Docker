@@ -1,6 +1,15 @@
 #include <constants.h>
 #include <Enumerations.h>
 
+// =======================================================================
+//
+// Purpose:     Prob - 2 Assignment 2 - 3D (Scalar Valued Problem)
+//
+// Author:      Thivin Anandh D
+//
+// History:     Implementation started on 30.12.2020
+// =======================================================================
+
 // Navier-Stokes problem, Driven cavity
 //
 // u(x,y) = unknown
@@ -174,42 +183,6 @@ void Params_Sol_U(double *in, double *out)
 {
   out[0] = in[3];                                 // u
   // Skipped three because, 1st three points will be the X,Y,Z coordinates of the Function
-}
-
-
-// **** DO NOT CHANGE ************ //
-void Assembly_poisson_3D_timeInDepedent(double quad_wt, double *coeff, double *param, double hK,
-                         double **derivatives, int *N_BaseFuncts, double ***LocMatrices, double **LocRhs)
-{
-    double *N = derivatives[0], *Nx = derivatives[1], *Ny = derivatives[2], *Nz = derivatives[3];
-    double **K11, **K12, **K13, **K21, **K22, **K23, **K31, **K32, **K33, *F1, *F2, *F3;
-    
-    
-    
-    K11 = LocMatrices[0];     // Local Stiffness Matrix
-
-
-    F1 = LocRhs[0];          // Local Forcing Matrix
-
-    double c0 = coeff[0]; // nu
-    double b1 = coeff[1]; // b1
-    double b2 = coeff[2]; // b2
-    double b3 = coeff[3]; // b3
-    double c  = coeff[4]; // c
-    double f  = coeff[5]; // f
-
-
-    for (int i = 0; i < N_BaseFuncts[0]; i++)
-    {
-        for (int j = 0; j < N_BaseFuncts[0]; j++)
-        {
-
-            K11[i][j] += quad_wt * (Nx[i] * Nx[j] + Ny[i] * Ny[j] + Nz[i] * Nz[j]);
-            /* NON LINEAR PART */
-        }
-        F1[i] += quad_wt*f*N[i];
-    }
-
 }
 
 

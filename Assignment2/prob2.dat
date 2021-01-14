@@ -1,18 +1,16 @@
 ======================================================================
 #       input file for ParMooN
 ======================================================================
-VERSION:      1
-LOGFILE:      logfile
-OUTFILE:      tcd2d.out
+VERSION:        1
+GEOFILE:        ../../ParMooN_temp/data/Cube.GEO
+BNDFILE:        ../../ParMooN_temp/data/Cube.PRM
 
-GEOFILE:        ../../ParMooN_temp/data/Hemker.GEO
-BNDFILE:        ../../ParMooN_temp/data/Hemker.PRM
 
-----------------------------------------------------------------------
-# number of uniform refinement steps at beginning
-----------------------------------------------------------------------
-UNIFORM_STEPS: 4
-
+LOGFILE:     logfile
+OUTFILE:      cd3d_Direct_local.out
+BASENAME: sph
+OUTPUTDIR: VTK
+VTKBASENAME: A2_prob2
 ----------------------------------------------------------------------
 # order of ansatz space (=k)
 #   i.e. P_k on triangles
@@ -20,36 +18,73 @@ UNIFORM_STEPS: 4
 ----------------------------------------------------------------------
 ANSATZ_ORDER: 1
 
-Axial3D: 0
-USE_ISOPARAMETRIC: 0
+----------------------------------------------------------------------
+# Reynolds number eps=1/RE_NR
+----------------------------------------------------------------------
+RE_NR: 1 
 
 ----------------------------------------------------------------------
-# Peclet number eps=1/PE_NR
+# maximum number of levels
 ----------------------------------------------------------------------
-PE_NR: 10
+LEVELS: 4
 
 ----------------------------------------------------------------------
-# factors for SDFEM (delta_K=h_K*DELTAi)
-#   DELTA0 for high Peclet number
-#   DELTA1 for low Peclet number
+# number of uniform refinement steps at beginning
 ----------------------------------------------------------------------
-DELTA0: 0.01
-DELTA1:  0.01
-SDFEM_TYPE: 0
+UNIFORM_STEPS: 4
+
+----------------------------------------------------------------------
+# refinement strategy
+#   0 - uniform refinement
+#   1 - gradient indicator
+#   2 - error estimator
+----------------------------------------------------------------------
+REFINEMENT: 0
 
 ----------------------------------------------------------------------
 # type of discretization: 
 #    1 - GALERKIN
 #    2 - SDFEM
 #    3 - UPWIND
-#    4 - LAYTON96
-#    5 - SMAGORINSKY 
-#    6 - COLETTI
-#    7 - GL98Conv
-#    8 - GL98AuxProb
+#    4 - Smagorinsky LES
 ----------------------------------------------------------------------
 DISCTYPE:  1
- 
+
+
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+# refinement strategy
+# ADAPTIVE_REFINEMENT_CRITERION
+#              0 - gradient indicator
+#              1 - residual error estimator for H1-Norm
+#              2 - residual error estimator for L2-Norm
+#              3 - residual error estimator for Energy-Norm (quasi robust)
+
+# REFINE_STRATEGY  0 - compare with maximal local error
+                   1 - compare with fraction of global error
+----------------------------------------------------------------------
+GRID_TYPE: 3
+
+--------------------------------------------------------------------------
+SOLVER_TYPE: 2
+
+SC_NONLIN_RES_NORM_MIN_SADDLE: 1e-6
+SC_NONLIN_MAXIT_SADDLE: 1
+SC_NONLIN_DAMP_FACTOR_SADDLE: 1
+
+
+SC_VERBOSE: 1
+
+----------------------------------------------------------------------
+# Scale the Mesh
+----------------------------------------------------------------------
+MESH_SCALE_X: 0.1
+MESH_SCALE_Y: 0.1
+MESH_SCALE_Z: 0.3
+
+
+
 ----------------------------------------------------------------------
 # parameter for time discretization
 ----------------------------------------------------------------------
@@ -61,23 +96,23 @@ DISCTYPE:  1
 ----------------------------------------------------------------------
 TIME_DISC: 1
 STARTTIME: 0
-ENDTIME: 80
-TIMESTEPLENGTH: 0.2
+ENDTIME: 60
+TIMESTEPLENGTH: 0.1
+TIMESTEPLENGTH_TOL: 0.001
+STEPS_PER_IMAGE: 1
+
 
 ----------------------------------------------------------------------
-# output controls
+# parameters for slip with friction boundary conditions
 ----------------------------------------------------------------------
-BASENAME: unitsquare
-VTKBASENAME: A2_prob1
-OUTPUTDIR: VTK
-WRITE_PS: 0
-WRITE_VTK: 1
 
+# FRICTION_TYPE: 0    no slip
+# FRICTION_TYPE: not 0 is slip with friction 
+FRICTION_TYPE: 0
 
-MEASURE_ERRORS: 0
+# FRICTION_CONSTANT: the constant in the friction law (beta)
+# choose like on page 720 of our paper 
+FRICTION_CONSTANT: 1
 
-SC_VERBOSE: 0
-SC_VERBOSE_AMG: 0
-CC_VERBOSE: 0
 
 
