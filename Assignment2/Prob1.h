@@ -142,7 +142,7 @@ void MatrixARhsAssemble(double Mult, double *coeff, double *param,
 		MatrixRowA = MatrixA[i];
 		test10 = Orig0[i];
 		test01 = Orig1[i];
-		test00 = Orig2[i];
+		test00 = Orig2[i]; 
 
 		Rhs[i] += ;//
 
