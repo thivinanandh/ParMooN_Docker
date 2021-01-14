@@ -39,6 +39,17 @@
 #include <ConvDiff.h>
 #include <ConvDiff2D.h>
 
+#include <Database.h>
+#include <FEDatabase2D.h>
+#include <FEFunction2D.h>
+#include <LinAlg.h>
+#include <MainUtilities.h>
+#include <BoundEdge.h>
+#include <IsoBoundEdge.h>
+#include <MooNMD_Io.h>
+#include <ConvDiff.h>
+
+
 // Include the Example file for the Given problem..
 // THe Example File contains the following functions
 //   --  Boundary Conditions for Problem
@@ -278,12 +289,12 @@ int main(int argc, char *argv[])
 	TFEFunction2D *fefct[1];
 	fefct[0] = Scalar_FEFunction; 
 	int NSFEFctIndexVelo[1] = {0};
-	MultiIndex2D NSFEMultiIndexVelo[1] = { D00 };
+	MultiIndex2D NSFEMultiIndexVelo[3] = { D00,D10,D01 };
 	int NSBeginParamVelo[1] = { 0 };
 	   
 	ParamFct *NSFctVelo[1] = {Params_Sol_U};
 
-	aux =  new TAuxParam2D(1, 1, 1, 1, &fespace, &Scalar_FEFunction, NSFctVelo, NSFEFctIndexVelo, NSFEMultiIndexVelo, 1, NSBeginParamVelo);
+	aux =  new TAuxParam2D(1, 1, 1, 1, &fespace, &Scalar_FEFunction, NSFctVelo, NSFEFctIndexVelo, NSFEMultiIndexVelo, 3, NSBeginParamVelo);
 
 	// assemble the system matrix with given aux, sol and rhs
 	// aux is used to pass  addition fe functions (eg. mesh velocity) that is nedded for assembling,

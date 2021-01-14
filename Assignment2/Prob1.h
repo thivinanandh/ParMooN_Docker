@@ -1,6 +1,11 @@
-// ======================================================================
-// instationary problem
-// ======================================================================
+// =======================================================================
+//
+// Purpose:     Prob - 1 Assignment 2 - Hemker Problem  - Non Stationary
+//
+// Author:      Thivin Anandh D
+//
+// History:     Implementation started on 30.12.2020
+// =======================================================================
 
 #include <MacroCell.h>
 #include <IsoBoundEdge.h>
@@ -110,7 +115,7 @@ void MatrixARhsAssemble(double Mult, double *coeff, double *param,
 	double *Orig0, *Orig1, *Orig2;
 	int i, j, N_;
 	double c0, c1, c2, c3, c4, Pe, h;
-	double u_old;
+	double u_old,u_old_x,u_old_y;
 	MatrixA = LocMatrices[0];
 	Rhs = LocRhs[0];
 	N_ = N_BaseFuncts[0];
@@ -125,7 +130,10 @@ void MatrixARhsAssemble(double Mult, double *coeff, double *param,
 	c3 = coeff[3]; // c
 	c4 = coeff[4]; // f
 
-	u_old = param[0]; // Old value of U
+	u_old 	= param[0]; 	// Old value of U
+	u_old_x	= param[1]; 	// Old value of U_x
+	u_old_y = param[2];     // Old value of U_y
+
 
 	double timeStepVal = TDatabase::TimeDB->CURRENTTIMESTEPLENGTH; // Delta T ( time Step )
 
@@ -351,4 +359,6 @@ void NSType1Galerkin(double Mult, double *coeff,
 void Params_Sol_U(double *in, double *out)
 {
 	out[0] = in[2]; // u
+	out[1] = in[3]; // u_x
+    out[2] = in[4]; // u_y
 }
