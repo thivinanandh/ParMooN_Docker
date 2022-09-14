@@ -141,7 +141,7 @@ void TFEDatabase2D::RegisterAllQuadFormulas()
   TQuadFormulaTria *qftria;
   TQuadFormulaQuad *qfquad;
   TQuadFormula3D *qf3d;
-
+  
   // =====================================================================
   // register 1d quadrature formulas
   // =====================================================================
