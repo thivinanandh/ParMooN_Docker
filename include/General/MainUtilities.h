@@ -121,6 +121,8 @@ void Parameters_Gradient_Residual(int N_Points, double *X, double *Y, double *Ab
            double *Weights, double hK,
            double **Der, double **Exact,
            double **coeffs, double *LocError);
+
+
 #endif
 
 double graddiv_parameterOseen(double hK, double nu, double b1, double b2);

@@ -110,6 +110,13 @@
         "bit": "cpp",
         "FESpace2D.C": "cpp",
         "Scalar_CD2D.C": "cpp",
-        "FEDatabase2D.C": "cpp"
+        "FEDatabase2D.C": "cpp",
+        "SystemCD2D.C": "cpp",
+        "FEFunction2D.C": "cpp",
+        "TNSE2D_ParMooN.C": "cpp",
+        "MainUtilities.C": "cpp",
+        "FEDatabase3D.C": "cpp",
+        "Domain.C": "cpp",
+        "Output2D.C": "cpp"
     }
 }

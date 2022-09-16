@@ -129,6 +129,8 @@ TFEDatabase2D::TFEDatabase2D()
   RegisterAllRefTrans();
 
   GenerateArrays();
+  // Added By Thivin 
+  cout <<  "[Message] - Quadratures, BasisFunctions, NodalFunctions , RefTrans have been registered \n"; 
 }
 
 void TFEDatabase2D::RegisterAllQuadFormulas()
@@ -306,7 +308,7 @@ void TFEDatabase2D::RegisterAllQuadFormulas()
 #ifdef _MPI
   if(rank==out_rank)
 #endif
-  cout << "quadrature formulas registered" << endl;
+  // cout << "quadrature formulas registered" << endl;
 }
 
 void TFEDatabase2D::RegisterAllFEDescs()
@@ -455,7 +457,7 @@ void TFEDatabase2D::RegisterAllFEDescs()
 #ifdef _MPI
   if(rank==out_rank)
 #endif
-  cout << "FE descriptors registered" << endl;
+  // cout << "FE descriptors registered" << endl;
 }
 
 void TFEDatabase2D::RegisterAllBaseFunctions()
@@ -600,7 +602,7 @@ void TFEDatabase2D::RegisterAllBaseFunctions()
 #ifdef _MPI
   if(rank==out_rank)
 #endif
-  cout << "base functions registered" << endl;
+  // cout << "base functions registered" << endl;
 }
 
 void TFEDatabase2D::RegisterAllNodalFunctionals()
@@ -747,7 +749,7 @@ void TFEDatabase2D::RegisterAllNodalFunctionals()
 #ifdef _MPI
   if(rank==out_rank)
 #endif
-  cout << "nodal functionals registered" << endl;
+  // cout << "nodal functionals registered" << endl;
 }
 
 void TFEDatabase2D::RegisterAllFEs()
@@ -1180,7 +1182,7 @@ void TFEDatabase2D::RegisterAllFEs()
 #ifdef _MPI
   if(rank==out_rank)
 #endif
-  cout << "finite element registered" << endl;
+  // cout << "finite element registered" << endl;
 }
 
 void TFEDatabase2D::RegisterAllFEMappers()
@@ -1577,7 +1579,7 @@ void TFEDatabase2D::RegisterAllFEMappers()
 #ifdef _MPI
   if(rank==out_rank)
 #endif
-  cout << "FE mapper registered" << endl;
+  // cout << "FE mapper registered" << endl;
 }
 
 void TFEDatabase2D::RegisterAllHangingNodes()
@@ -1618,7 +1620,7 @@ void TFEDatabase2D::RegisterAllHangingNodes()
 #ifdef _MPI
   if(rank==out_rank)
 #endif
-  cout << "Hanging nodes registered" << endl;
+  // cout << "Hanging nodes registered" << endl;
 }
 
 void TFEDatabase2D::RegisterAllRefTrans()
@@ -1638,7 +1640,7 @@ void TFEDatabase2D::RegisterAllRefTrans()
 #ifdef _MPI
   if(rank==out_rank)
 #endif
-  cout << "Reference Transformations registered" << endl;
+  // cout << "Reference Transformations registered" << endl;
 }
 
 void TFEDatabase2D::GenerateArrays()
@@ -1866,30 +1868,30 @@ RefTrans2D TFEDatabase2D::GetOrig(int N_LocalUsedElements,
         switch(3*MaxPolynomialDegree)
         {
           case 0:
-            OutPut("Quadrature formula for quadrilateral is Gauss2" << endl); 
+            OutPut("[Message] - Quadrature formula for quadrilateral is Gauss2" << endl); 
             break;
           case 3:
-            OutPut("Quadrature formula for quadrilateral is Gauss3" << endl); 
+            OutPut("[Message] - Quadrature formula for quadrilateral is Gauss3" << endl); 
             break;
           case 6:
-            OutPut("Quadrature formula for quadrilateral is Gauss4" << endl); 
+            OutPut("[Message] - Quadrature formula for quadrilateral is Gauss4" << endl); 
             break;
           case 9:
-            OutPut("Quadrature formula for quadrilateral is Gauss5" << endl); 
+            OutPut("[Message] - Quadrature formula for quadrilateral is Gauss5" << endl); 
             break;
           case 12:
-            OutPut("Quadrature formula for quadrilateral is Gauss7" << endl); 
+            OutPut("[Message] - Quadrature formula for quadrilateral is Gauss7" << endl); 
             break;
           case 15:
-            OutPut("Quadrature formula for quadrilateral is Gauss8" << endl); 
+            OutPut("[Message] - Quadrature formula for quadrilateral is Gauss8" << endl); 
             break;
           case 18:
-            OutPut("Quadrature formula for quadrilateral is Gauss9" << endl); 
+            OutPut("[Message] - Quadrature formula for quadrilateral is Gauss9" << endl); 
             break;
         }
         if (TDatabase::ParamDB->INTERNAL_QUAD_RULE == 95)
       {
-        OutPut("Quadrature formula for quadrilateral is Gauss3" << endl); 
+        OutPut("[Message] - Quadrature formula for quadrilateral is Gauss3" << endl); 
       }
 	if (TDatabase::ParamDB->INTERNAL_QUAD_RULE == 97)
 	{

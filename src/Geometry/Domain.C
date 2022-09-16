@@ -852,7 +852,7 @@ int TDomain::PS(const char *name, Iterators iterator, int arg)
     return -1;
   }
 
-  cout << "Generating postscript file " << name << endl;
+  // cout << "Generating postscript file " << name << endl;
   
   // scale = 5350 / BoundX;
   // if (7820 / BoundY < scale) scale = 7820 / BoundY;

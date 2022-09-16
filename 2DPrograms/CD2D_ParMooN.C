@@ -165,10 +165,10 @@ int main(int argc, char* argv[])
 
   
   //Solve the system
-    t1 = GetTime();
-    SystemMatrix->Solve(sol, rhs);
-    t2 = GetTime();
-    OutPut( "time for solving: " << t2-t1 << endl);
+  t1 = GetTime(); 
+  SystemMatrix->Solve(sol, rhs);
+  t2 = GetTime();
+  OutPut( "time for solving: " << t2-t1 << endl);
     
   //======================================================================
   // produce outout

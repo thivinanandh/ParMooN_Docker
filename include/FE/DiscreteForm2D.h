@@ -274,6 +274,7 @@ void InitializeDiscreteForms_SSMUM(
   TDiscreteForm2D *&DiscreteFormRHS1,
   CoeffFct2D *LinCoeffs);
 
+
 void InitializeDiscreteForms_NSECST(TDiscreteForm2D *&DiscreteFormGalerkinSUPG, TDiscreteForm2D *&DiscreteFormLPS, CoeffFct2D *LinCoeffs);
 
 void InitializeDiscreteForms_TNSECST(TDiscreteForm2D *&DiscreteFormGalerkinSUPG, TDiscreteForm2D *&DiscreteFormLPS, TDiscreteForm2D *&DiscreteFormNLGalerkinSUPG, TDiscreteForm2D *&DiscreteFormNLLPS, TDiscreteForm2D *&DiscreteFormRHSGalerkinSUPG, TDiscreteForm2D *&DiscreteFormRHSLPS, CoeffFct2D *LinCoeffs);
@@ -330,6 +331,15 @@ void InitializeDiscreteFormsBurgers(
   TDiscreteForm2D *&DiscreteFormNLUpwind,
   TDiscreteForm2D *&DiscreteFormRHS,
   CoeffFct2D *LinCoeffs);
+
+
+//THIVIN -- A way to add Custom Discrete form, Directly from the External Example Files.
+void InitializeDiscreteFormsWithCustomFunction(TDiscreteForm2D *&DiscreteFormGalerkin,
+                              CoeffFct2D *LinCoeffs,int N_Terms, MultiIndex2D *Derivatives, int *SpacesNumbers, int CD_N_Matrices, int CD_N_Rhs,
+                              int *CD_RowSpace, int *CD_ColumnSpace, int *CD_RhsSpace,
+                              AssembleFctParam2D *BilinearAssembleGalerkin,
+                              ManipulateFct2D *manipulate);
+
 
 #endif
 

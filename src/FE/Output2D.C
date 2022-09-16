@@ -1059,7 +1059,7 @@ int TOutput2D::WriteVtk(const char *name)
   
   
   dat << "# vtk DataFile Version 4.2" << endl;
-  dat <<"File created by MooNMD, "<< "Computational Time : " << TDatabase::TimeDB->CURRENTTIME <<", " 
+  dat <<"File created by ParMooN, "<< "Computational Time : " << TDatabase::TimeDB->CURRENTTIME <<", " 
 #ifdef __PSD__    
   << " L < " << TDatabase::ParamDB->REACTOR_P29 <<" >"
 #endif    
@@ -1455,7 +1455,7 @@ int TOutput2D::WriteVtk(const char *name)
 
   dat.close();
 //   if( TDatabase::ParamDB->SC_VERBOSE > 0)
-    OutPut("wrote output into vtk file: " << name << endl);
+    OutPut("[Message] - wrote output into vtk file: " << name << endl);
   return 0;
 }
 

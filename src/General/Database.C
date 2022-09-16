@@ -121,6 +121,11 @@ extern "C" {
 // Constructors
 TDatabase::TDatabase()
 {
+  cout << "--------------------------------------------------------------------------------------------------- " <<endl;
+  cout << "|                                  ParMooN   Version 2.0                                          | " <<endl;
+  // cout << "|                     FEM Library Maintained by STARS Lab @ IISc Bengaluru                        | " <<endl;
+  cout << "|                        For More Details : cmg.cds.iisc.ac.in/parmoon                            | " <<endl;
+  cout << "--------------------------------------------------------------------------------------------------- " <<endl;
   // allocate databases
   ShapeDB = new TShapeDesc*[N_SHAPES];
   RefDescDB = new TRefDesc*[N_SHAPES + N_REFDESC + 2*N_MORTARDESC];

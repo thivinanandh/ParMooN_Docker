@@ -59,6 +59,12 @@ class TSystemCD2D
     
     /** Initilize the discrete forms and the matrices */
     void Init(CoeffFct2D *BilinearCoeffs, BoundCondFunct2D *BoundCond, BoundValueFunct2D *BoundValue);
+
+    /** Initilize the discrete forms and the matrices with Custom Assembly*/
+    void InitWithCustomAssembly(CoeffFct2D *BilinearCoeffs, BoundCondFunct2D *BoundCond, BoundValueFunct2D *BoundValue,int N_Terms, MultiIndex2D *Derivatives, int *SpacesNumbers, int CD_N_Matrices, int CD_N_Rhs,
+                              int *CD_RowSpace, int *CD_ColumnSpace, int *CD_RhsSpace,
+                              AssembleFctParam2D *BilinearAssembleGalerkin,
+                              ManipulateFct2D *manipulate);
  
     /** assemble the system matrix */
     void Assemble(TAuxParam2D *aux, double *sol, double *rhs);

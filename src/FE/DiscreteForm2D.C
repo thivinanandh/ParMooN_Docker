@@ -5402,10 +5402,15 @@ void InitializeDiscreteForms_Stationary( TDiscreteForm2D *&DiscreteFormUpwind,  
      
  }  
 } // InitializeDiscreteForms
-     
 
-void  InitializeDiscreteForms(TDiscreteForm2D *&DiscreteFormGalerkin, TDiscreteForm2D *&DiscreteFormNLGalerkin,
-                              CoeffFct2D *LinCoeffs)
+
+//THIVIN -- Intialise Discrete forms with the Values Given by the User
+
+void  InitializeDiscreteFormsWithCustomFunction(TDiscreteForm2D *&DiscreteFormGalerkin,
+                              CoeffFct2D *LinCoeffs,int N_Terms, MultiIndex2D *Derivatives, int *SpacesNumbers, int CD_N_Matrices, int CD_N_Rhs,
+                              int *CD_RowSpace, int *CD_ColumnSpace, int *CD_RhsSpace,
+                              AssembleFctParam2D *BilinearAssembleGalerkin,
+                              ManipulateFct2D *manipulate)
 {
 
   char GalerkinString[] = "Galerkin";
@@ -5415,33 +5420,14 @@ void  InitializeDiscreteForms(TDiscreteForm2D *&DiscreteFormGalerkin, TDiscreteF
 
 
 
-//   DiscreteFormGalerkin = new TDiscreteForm2D(GalerkinString, allString,
-//                                              NSType4N_Terms, NSType4Derivatives, 
-//                                              NSType4SpaceNumbers,
-//                                              NSType4N_Matrices, NSType4N_Rhs, 
-//                                              NSType4RowSpace, NSType4ColumnSpace,
-//                                              NSType4RhsSpace, NSType4GalerkinAxialSymm3D, LinCoeffs, NULL);
-// 
-//   DiscreteFormNLGalerkin = new TDiscreteForm2D(GalerkinString, nonlinearString,
-//                                                NSType4NLN_Terms, NSType4NLDerivatives, 
-//                                                NSType4NLSpaceNumbers,
-//                                                NSType4NLN_Matrices, NSType4NLN_Rhs, 
-//                                                NSType4NLRowSpace, NSType4NLColumnSpace,
-//                                                NSType4NLRhsSpace, NSType3_4NLGalerkinAxialSymm3D, LinCoeffs, NULL);
-// 
-//   DiscreteFormUpwind = new TDiscreteForm2D(UpwindString, allString, 
-// 					   NSType4N_Terms, NSType4Derivatives, 
-// 					   NSType4SpaceNumbers,
-// 					   NSType4N_Matrices, NSType4N_Rhs, 
-// 					   NSType4RowSpace, NSType4ColumnSpace,
-// 					   NSType4RhsSpace, NSType4UpwindAxialSymm3D, LinCoeffs, NULL);
-//   
-//   DiscreteFormNLUpwind = new TDiscreteForm2D(UpwindString, nonlinearString, 
-// 					     NSType4NLN_Terms, NSType4NLDerivatives, 
-// 					     NSType4NLSpaceNumbers,
-// 					     NSType4NLN_Matrices, NSType4NLN_Rhs, 
-// 					     NSType4NLRowSpace, NSType4NLColumnSpace,
-// 					     NSType4NLRhsSpace, NSType3_4NLUpwindAxialSymm3D, LinCoeffs, NULL);
+  DiscreteFormGalerkin = new TDiscreteForm2D(GalerkinString, allString,
+                                  N_Terms, Derivatives, SpacesNumbers,
+                                  CD_N_Matrices, CD_N_Rhs, CD_RowSpace,
+                                  CD_ColumnSpace, CD_RhsSpace, 
+                                  (AssembleFctParam2D*)BilinearAssembleGalerkin,
+                                  LinCoeffs, NULL);
+
+
 }
 
 
