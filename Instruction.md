@@ -142,7 +142,7 @@ Which will generate the make file
 then run 
 
 ```
-make -j
+make -j3
 ```
 
 
