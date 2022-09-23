@@ -2,8 +2,8 @@
 #       input file for MooN_MD
 ======================================================================
 VERSION:        1
-GEOFILE:        ../../ParMooN/data/urea_210.GEO
-BNDFILE:        ../../ParMooN/data/urea_210.PRM
+GEOFILE:        ../../ParMooN_Docker/data/urea_210.GEO
+BNDFILE:        ../../ParMooN_Docker/data/urea_210.PRM
 GEOFILE:        ../../ParMooN/data/Wuerfel.GEO
 BNDFILE:        ../../ParMooN/data/Wuerfel.PRM
 #GEOFILE:        ../../ParMooN/data/Circle1.GEO
