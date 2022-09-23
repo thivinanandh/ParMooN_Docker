@@ -8,8 +8,8 @@ LOGFILE:        logfile
 GEOFILE:      ../../ParMooN/data/UnitSquare.GEO
 BNDFILE:        ../../ParMooN/data/UnitSquare.PRM
 
-GEOFILE:      ../../ParMooN/data/Channel_10_1.GEO
-BNDFILE:        ../../ParMooN/data/Channel_10_1.PRM
+GEOFILE:      ../../ParMooN_Docker/data/Channel_10_1.GEO
+BNDFILE:        ../../ParMooN_Docker/data/Channel_10_1.PRM
 
 # choose the example (see also Examples/Example_NSE2D.C)
 # 0 - poiseuille flow
